@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="ui grid centered">
+    <div class="eight wide column">
+        <h1>{{ question.question.question_text }}</h1>
+        <div class="ui divider">
+        </div>
+        <div class="ui buttons">
+            <button class="ui button"><i class="thumbs down icon"></i>{{ votes.up }}</button>
+            <div class="or"></div>
+            <button class="ui positive button"><i class="thumbs up icon"></i>{{ votes.up }}</button>
+        </div>
+        <br/>
+        <div class="ui divider">
+        </div>
+        {% if user.is_authenticated %}
+            <form method="post" > 
+                {% csrf_token %}
+                <div class="ui raised card" style="width:100%">
+                    <div class="content">
+                        <div class="header">Your Answer</div>
+                        <br/>
+                        <div class="description">
+                            <div class="ui form">
+                                <div class="field">
+                                    <textarea placeholder="Type Here" rows="2"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="extra content">
+                        <div class="left floated author">
+                            <img class="ui avatar image" src="{{auth.display_picture_url}}">&nbsp;{{user.username}}
+                        </div>
+
+                        <div class="right floated">
+                            <button class="ui blue button" >Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
+        {% else %}
+
+            <div class="ui raised card" style="width:100%">
+                <div class="ui icon message">
+                    <i class="inbox icon"></i>
+                    <div class="content">
+                        <div class="header">
+                            Know the answer?
+                        </div>
+                        <br/>
+                        <div class="description">
+                            <button onclick="login()" class="ui basic grey button">
+                                Login
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        {% endif %}
+        <br/>
+        <div class="ui horizontal divider">
+            Recent Answers
+        </div>
+        <br/>
+        {% for answer in answers %}
+            <div>{{answer.answer}} by {{answer.user.username}} on {{answer.createdOn}}</div>
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock content %}

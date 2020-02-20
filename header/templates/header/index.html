@@ -1,0 +1,33 @@
+<div class="ui secondary  menu">
+  <a class="active item" href="{% url 'home:index' %}" >
+    <i class="big handshake link icon"></i> XPlain
+  </a>
+  <a class="item">
+    My Questions
+  </a>
+  <a class="item">
+    About
+  </a>
+  <div class="right menu">
+    {% if user.is_authenticated %}
+      <div class="item">
+        {{user.username}}
+      </div>
+      <div class="item">
+        <a class="ui basic red button" href="{% url 'account:logout' %}">Logout</a>
+      </div>
+    {% else %}
+      <div class="item" >
+        <button class="ui basic grey button" onclick="login()">Login</button>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+function login(){
+    console.log("Opening Modal")
+    $('.ui.basic.modal')
+  .modal('show');
+}
+</script>

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="ui grid centered">
+    <div class="eight wide column">
+        {% if user.is_authenticated %}
+        <div class="ui raised card" style="width:100%">
+            <div class="content">
+                <div class="header">Scratching your head?</div>
+                <br/>
+                <div class="description">
+                    <div class="ui form">
+                        <div class="field">
+                            <textarea placeholder="Ask anything!" rows="2"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="extra content">
+                <div class="left floated author">
+                    <img class="ui avatar image" src="{{auth.display_picture_url}}">&nbsp;{{user.username}}
+                </div>
+
+                <div class="right floated">
+                    <button class="ui red button" >Ask Now!</button>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <br/>
+        {% if latest_question_list %}
+         <div class="ui horizontal divider">
+            Latest Questions
+        </div>
+        <br/>
+            {% for question in latest_question_list %}
+                <a href="{% url 'questions:detailed' question.id %}">
+                    <div class="ui card" style="width:100%">
+                        <div class="content">
+                            <div class="header">
+                                {{ question.question_text }}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <br/>
+            {% endfor %}
+        {% else %}
+            <p>No questions are asked.</p>
+        {% endif %}
+    </div>
+</div>
+
+
+{% endblock content %}
