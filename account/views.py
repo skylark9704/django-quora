@@ -5,7 +5,6 @@ from google.auth.transport import requests
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
 from account.models import Auth
-from django.conf import settings
 import google_auth_oauthlib.flow
 
 
@@ -30,6 +29,7 @@ def index(request):
 
 
 def oauth(request):
+    print(request.path)
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
         './secret.json',
         scopes=['https://www.googleapis.com/auth/userinfo.email',
@@ -48,10 +48,9 @@ def oauth(request):
                                  'https://accounts.google.com']:
             raise ValueError('Wrong issuer.')
 
-        newLogin = User.objects.filter(email=idinfo['email'])[0]
-     
-        print(hasattr(newLogin, '_meta'))
-        newAuth = Auth.objects.filter(user=newLogin)[0]
+        newLogin = get(User.objects.filter(email=idinfo['email']), 0)
+
+        newAuth = get(Auth.objects.filter(user=newLogin), 0)
         if(newAuth):
             print('User Exists, Logging In')
             login(request, newLogin, backend='django.contrib.auth.backends.ModelBackend')
@@ -86,3 +85,10 @@ def oauth(request):
 def signout(request):
     logout(request)
     return redirect('/home/')
+
+
+def get(l, index, default=False):
+    try:
+        return l[index]
+    except IndexError:
+        return default

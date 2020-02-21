@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="ui grid">
+        <div class="three wide column">
+            <img class="ui centered small raised circular image" src="{{user.auth.display_picture_url}}">
+        </div>
+        <div class="six wide column">
+            <h1 class="ui header">{{user.username}}</h1>
+        </div>
+    </div>
+
+    <div class="ui grid" style="height:30vh">
+        <div class="eight wide column">
+            <div class="ui card raised" style="width:100%; height:100%">
+                <div class="content">
+                    <div class="header">
+                        Asked Questions
+                    </div>
+                    <div class="ui divider"></div>
+                    {% if asked %}
+                    
+                    <div class="ui relaxed divided list animated">
+                        {% for question in asked %}
+                            <div class="item">
+                                <div class="right floated content">
+                                    <div class="ui tiny buttons">
+                                        <button class="ui button green">
+                                            <i class="thumbs up icon"></i>
+                                                {{question.up}}
+                                        </button>
+                                        <button class="ui red button">
+                                            <i class="thumbs down icon"></i>
+                                            {{question.down}}
+                                        </button>
+                                        
+                                    </div>
+                                </div>
+                                <i class="large github middle aligned icon"></i>
+                                <div class="content">
+                                    <a class="header" href="{% url 'questions:detailed' question.id %}">{{question.title}}</a>
+                                    <div class="description">
+                                        asked on {{question.askedOn}}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                        <h2 class="ui center aligned icon header">
+                            <i class="meh outline icon"></i>
+                            <div class="content">
+                                Duh-oh!
+                                <div class="sub header">You havent asked anything yet.<br/><a href="{% url 'home:index' %}">Ask Questions</a></div>
+                            </div>
+                        </h2>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="eight wide column">
+            <div class="ui card raised" style="width:100%;height:100%">
+                <div class="content">
+                    <div class="header">
+                        Answers Given
+                    </div>
+                    <div class="ui divider"></div>
+                    {% if answered %}
+                        <div class="ui relaxed divided list animated">
+                        {% for answer in answered %}
+                            <div class="item">
+                                <i class="large github middle aligned icon"></i>
+                                <div class="content">
+                                    <a class="header" href="{% url 'questions:detailed' answer.question.id%}">{{answer.question.title}}</a>
+                                    <div class="description">
+                                        answered on {{answer.createdOn}}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                    <h2 class="ui center aligned icon header">
+                        <i class="meh outline icon"></i>
+                        <div class="content">
+                            Duh-oh!
+                            <div class="sub header">You havent answered anything yet.<br/><a href="{% url 'home:index' %}">Answer Questions</a></div>
+                        </div>
+                    </h2>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock content %}

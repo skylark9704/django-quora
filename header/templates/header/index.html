@@ -1,11 +1,18 @@
 <div class="ui secondary  menu">
-  <a class="active item" href="{% url 'home:index' %}" >
+  <a href="{% url 'home:index' %}" {% if request.path == '/home/' %} class="active item"{%else%} class="item" {% endif %}>
     <i class="big handshake link icon"></i> XPlain
   </a>
-  <a class="item">
+  {% if user.is_authenticated %}
+  <a href="{% url 'questions:mine' %}" {% if request.path == '/questions/mine/' %} class="active item"{%else%} class="item" {% endif %}>
     My Questions
   </a>
-  <a class="item">
+  {% endif %}
+  {% if user.is_superuser %}
+  <a href="{% url 'questions:topic' %}" {% if request.path == '/questions/topic/' %} class="active item"{%else%} class="item" {% endif %} >
+    Topics
+  </a>
+  {%endif%}
+  <a href="{% url 'about:index' %}"{% if request.path == '/about/' %} class="active item"{%else%} class="item" {% endif %}>
     About
   </a>
   <div class="right menu">

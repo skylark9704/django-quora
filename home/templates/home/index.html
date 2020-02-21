@@ -4,28 +4,40 @@
 <div class="ui grid centered">
     <div class="eight wide column">
         {% if user.is_authenticated %}
-        <div class="ui raised card" style="width:100%">
-            <div class="content">
-                <div class="header">Scratching your head?</div>
-                <br/>
-                <div class="description">
-                    <div class="ui form">
-                        <div class="field">
-                            <textarea placeholder="Ask anything!" rows="2"></textarea>
+        <form method="post" action="{% url 'questions:ask' %}">
+            {% csrf_token %}
+            <div class="ui raised card" style="width:100%">
+                <div class="content">
+                    <div class="header">Scratching your head? Ask away!</div>
+                    <br/>
+                    <div class="description">
+                        <div class="ui form">
+                            <div class="field">
+                                <input placeholder="Title" name="title">
+                            </div>
+                            <div class="field">
+                                <textarea placeholder="A short description" name="text" rows="2"></textarea>
+                            </div>
+                            <select name="topic" class="ui dropdown">
+                                <option value="">Topic</option>
+                                {% for t in topics %}
+                                    <option value="{{t.id}}">{{t.topic}}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="extra content">
-                <div class="left floated author">
-                    <img class="ui avatar image" src="{{auth.display_picture_url}}">&nbsp;{{user.username}}
-                </div>
+                <div class="extra content">
+                    <div class="left floated author">
+                        <img class="ui avatar image" src="{{auth.display_picture_url}}">&nbsp;{{user.username}}
+                    </div>
 
-                <div class="right floated">
-                    <button class="ui red button" >Ask Now!</button>
+                    <div class="right floated">
+                        <button class="ui red button" type="submit" value="submit">Ask Now!</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
         {% endif %}
         <br/>
         {% if latest_question_list %}
@@ -34,17 +46,35 @@
         </div>
         <br/>
             {% for question in latest_question_list %}
-                <a href="{% url 'questions:detailed' question.id %}">
-                    <div class="ui card" style="width:100%">
-                        <div class="content">
-                            <div class="header">
-                                {{ question.question_text }}
-                            </div>
+                
+                <div class="ui card raised segment link" style="width:100%">
+                    <div class="content">
+                        {% if question.topic.topic == 'javascript'  %}
+                            <a href="{% url 'home:index' %}/?filter={{question.topic.topic}}" class="ui yellow mini right ribbon label">{{question.topic.topic}}</a>
+                        {% else %}
+                            <a href="{% url 'home:index' %}/?filter={{question.topic.topic}}" class="ui green mini right ribbon label">{{question.topic.topic}}</a>
+                        {% endif %}
+                        <a href="{% url 'questions:detailed' question.id %}" style="all:unset">
+                        <div class="header">
+                            <h3>{{ question.title }}</h3>
+                        </div>
+                        <div class="description">
+                            <p>{{question.question_text}}</p>
+                        </div>
+                        </a>
+                    </div>
+                    <div class="extra content">
+                        <div class="left floated">
+                            {{question.askedOn}}
+                        </div>
+                        <div class="right floated author">
+                            <img class="ui avatar image" src="{{question.user.auth.display_picture_url}}"> {{question.user.username}}
                         </div>
                     </div>
-                </a>
+                </div>
                 <br/>
             {% endfor %}
+
         {% else %}
             <p>No questions are asked.</p>
         {% endif %}

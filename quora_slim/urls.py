@@ -20,5 +20,6 @@ urlpatterns = [
     url("account/", include("account.urls")),
     url('home/', include("home.urls")),
     url('questions/', include("questions.urls")),
+    url('about/', include("about.urls")),
     url('admin/', admin.site.urls)
 ]

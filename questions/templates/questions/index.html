@@ -4,19 +4,31 @@
 
 <div class="ui grid centered">
     <div class="eight wide column">
-        <h1>{{ question.question.question_text }}</h1>
+        <h1>{{ question.question.title }}</h1>
+        <p>{{question.question.question_text}}</p>
         <div class="ui divider">
         </div>
-        <div class="ui buttons">
-            <button class="ui button"><i class="thumbs down icon"></i>{{ votes.up }}</button>
-            <div class="or"></div>
-            <button class="ui positive button"><i class="thumbs up icon"></i>{{ votes.up }}</button>
+        <div class="ui grid">
+            <div class="three column row">
+                <div class="left floated column">
+                    <form method="post" action="{% url 'questions:vote' question.question.id %}">
+                        {% csrf_token %}
+                        <div class="ui buttons">
+                            <button class="ui button" name="vote" value="-1"><i class="thumbs down icon"></i>{{ votes.down }}</button>
+                            <div class="or"></div>
+                            <button class="ui positive button" name="vote" value="1" ><i class="thumbs up icon"></i>{{ votes.up }}</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="right floated column" style="text-align:right">
+                    <img class="ui avatar image" src="{{question.question.user.auth.display_picture_url}}"> {{question.question.user.username}}
+                </div>
+            </div>
         </div>
-        <br/>
         <div class="ui divider">
         </div>
         {% if user.is_authenticated %}
-            <form method="post" > 
+            <form method="post" action="{% url 'questions:answer' question.question.id %}" > 
                 {% csrf_token %}
                 <div class="ui raised card" style="width:100%">
                     <div class="content">
@@ -25,7 +37,7 @@
                         <div class="description">
                             <div class="ui form">
                                 <div class="field">
-                                    <textarea placeholder="Type Here" rows="2"></textarea>
+                                    <textarea name="answer" placeholder="Type Here" rows="2"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -36,7 +48,7 @@
                         </div>
 
                         <div class="right floated">
-                            <button class="ui blue button" >Submit</button>
+                            <input class="ui blue button" type="submit" value="Submit">
                         </div>
                     </div>
                 </div>
@@ -67,10 +79,37 @@
             Recent Answers
         </div>
         <br/>
-        {% for answer in answers %}
-            <div>{{answer.answer}} by {{answer.user.username}} on {{answer.createdOn}}</div>
-        {% endfor %}
-
+        {%if answers%}
+            {% for answer in answers %}
+                <div class="ui feed">
+                    <div class="event">
+                        <div class="label">
+                            {% if answer.user.auth.display_picture_url %}
+                            <img src="{{answer.user.auth.display_picture_url}}">
+                            {% else %}
+                            <img src="https://t4.ftcdn.net/jpg/00/64/67/63/240_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg">
+                            {% endif %}
+                        </div>
+                        <div class="content">
+                            <div class="summary">
+                                <a class="user">
+                                    {{answer.user.username}}
+                                </a> said
+                                <div class="date">
+                                    {{answer.createdOn}}
+                                </div>
+                            </div>
+                            <div class="extra text">
+                                {{answer.answer}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui divider"></div>
+            {% endfor %}
+        {%else%}
+            <p>No one has answered yet</p>
+        {%endif%}
     </div>
 </div>
 

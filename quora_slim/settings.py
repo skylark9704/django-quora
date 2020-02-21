@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'header.apps.HeaderConfig',
     'home.apps.HomeConfig',
     'questions.apps.QuestionsConfig',
+    'about.apps.AboutConfig'
 ]
 
 MIDDLEWARE = [
@@ -69,7 +70,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'quora_slim.context_processor.extra'
+                'quora_slim.context_processor.extra',
+                'quora_slim.context_processor.topics',
             ],
         },
     },
@@ -86,7 +88,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'quora_slim',
         'USER': 'root',
-        'PASSWORD': 'root'
+        'PASSWORD': 'root',
     }
 }
 

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="ui grid centered">
+        <div class="eight wide column">
+            <form method="post" action="{% url 'questions:topic' %}">
+                {% csrf_token %}
+                <div class="ui raised card" style="width:100%">
+                    <div class="content">
+                        <div class="header">Add Topics</div>
+                        <br/>
+                        <div class="description">
+                            <div class="ui form">
+                                <div class="field">
+                                    <input placeholder="Topic" name="topic">
+                                </div>
+                                <button class="ui button" type="submit" value="submit">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                    {% comment %} <div class="extra content">
+                    </div> {% endcomment %}
+                </div>
+            </form>
+            <br/>
+            <div class="ui raised card" style="width:100%">
+                <div class="content">
+                    <div class="header">Topics</div>
+                    <br/>
+                    <div class="description">
+                        {% if topics %}
+                            <ul>
+                                {% for topic in topics  %}
+                                    <li>{{topic.topic}}
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                        <p>No Topics added yet</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
