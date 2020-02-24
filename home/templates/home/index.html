@@ -1,30 +1,38 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
 
 <div class="ui grid centered">
     <div class="eight wide column">
         {% if user.is_authenticated %}
-        <form method="post" action="{% url 'questions:ask' %}">
-            {% csrf_token %}
             <div class="ui raised card" style="width:100%">
                 <div class="content">
                     <div class="header">Scratching your head? Ask away!</div>
                     <br/>
                     <div class="description">
-                        <div class="ui form">
+                        <form class="ui form">
+                        {% csrf_token %}
                             <div class="field">
-                                <input placeholder="Title" name="title">
+                                <label>Empty</label>
+                                <input name="empty" type="text">
                             </div>
                             <div class="field">
-                                <textarea placeholder="A short description" name="text" rows="2"></textarea>
+                                <label>Dropdown</label>
+                                <select class="ui dropdown" name="dropdown">
+                                    <option value="">Topic</option>
+                                    <option value="male">Choice 1</option>
+                                    <option value="female">Choice 2</option>
+                                </select>
                             </div>
-                            <select name="topic" class="ui dropdown">
-                                <option value="">Topic</option>
-                                {% for t in topics %}
-                                    <option value="{{t.id}}">{{t.topic}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
+                            <div class="inline field">
+                                <div class="ui checkbox">
+                                    <input type="checkbox" name="checkbox">
+                                    <label>Checkbox</label>
+                                </div>
+                            </div>
+                            <div class="ui submit button">Submit</div>
+                            <div class="ui error message"></div>
+                        </form>
                     </div>
                 </div>
                 <div class="extra content">
@@ -46,7 +54,6 @@
         </div>
         <br/>
             {% for question in latest_question_list %}
-                
                 <div class="ui card raised segment link" style="width:100%">
                     <div class="content">
                         {% if question.topic.topic == 'javascript'  %}
@@ -74,12 +81,11 @@
                 </div>
                 <br/>
             {% endfor %}
-
         {% else %}
             <p>No questions are asked.</p>
         {% endif %}
     </div>
 </div>
 
-
+<script src="{% static 'home/validate.js' %}"></script>
 {% endblock content %}

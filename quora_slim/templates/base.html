@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     {# Make modifiable head elements #}
@@ -9,14 +10,14 @@
             crossorigin="anonymous">
         </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
-    </head>
-
-    <body>
         <style>
             body{
                 padding:4px 8px
             }
         </style>
+    </head>
+
+    <body>
         {% include 'header/index.html' %}
         {% include 'account/index.html' %}
         <div style="padding:8px">

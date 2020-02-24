@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from .models import Question, Vote, Answer, Topic
-from django.contrib.auth.decorators import permission_required
 from django.views import View
 
 
@@ -113,7 +112,11 @@ class MyQuestionsView(View):
 
             row.up = up
             row.down = down
-        return render(request, 'questions/my_questions.html', {'asked': questions, 'answered': answers})
+        return render(
+            request,
+            'questions/my_questions.html',
+            {'asked': questions, 'answered': answers}
+        )
 
 
 def get(l, index, default=False):
