@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}
+    XPlain - {{user.username}}
+{% endblock title %}
+{% block content %}
+<div class="ui container">
+    <div class="ui grid stackable">
+        <div class="three wide column">
+            <img class="ui centered small raised circular image" src="{{user.auth.display_picture_url}}">
+        </div>
+        <div class="six wide column">
+            <h1 class="ui header">{{user.first_name}} {{user.last_name}} {% if user.is_superuser %}<a class="ui small green horizontal label">super</a>{% endif %}</h1>
+            <p>Date Joined : {{user.date_joined | date}}</p>
+        </div>
+    </div>
+    <div class="ui divider"></div>
+</div>
+{% endblock content %}

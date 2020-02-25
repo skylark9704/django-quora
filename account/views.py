@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from google.oauth2 import id_token
 from google.auth.transport import requests
 from django.contrib.auth.models import User
@@ -43,7 +43,9 @@ def oauth(request):
         idinfo = id_token.verify_oauth2_token(
             token['id_token'],
             requests.Request(),
-            '720083099513-rr2vib357lnpto3i9rgrda7hgd1mk67m.apps.googleusercontent.com')
+            '720083099513-rr2vib357lnpto3i9rgrda7hgd1mk67m'
+            + '.apps.googleusercontent.com'
+        )
         if idinfo['iss'] not in ['accounts.google.com',
                                  'https://accounts.google.com']:
             raise ValueError('Wrong issuer.')
@@ -53,7 +55,11 @@ def oauth(request):
         newAuth = get(Auth.objects.filter(user=newLogin), 0)
         if(newAuth):
             print('User Exists, Logging In')
-            login(request, newLogin, backend='django.contrib.auth.backends.ModelBackend')
+            login(
+                request,
+                newLogin,
+                backend='django.contrib.auth.backends.ModelBackend'
+            )
             response = redirect('/home/')
             return response
         else:
@@ -85,6 +91,11 @@ def oauth(request):
 def signout(request):
     logout(request)
     return redirect('/home/')
+
+
+def profile(request):
+
+    return render(request, 'account/profile.html')
 
 
 def get(l, index, default=False):

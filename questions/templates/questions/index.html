@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
-
+{% block title %}
+Xplain - {{question.question.title}}
+{% endblock title %}
 {% block content %}
-
-<div class="ui grid centered">
+<div class="ui container">
+<div class="ui grid stackable centered">
     <div class="eight wide column">
         <h1>{{ question.question.title }}</h1>
         <p>{{question.question.question_text}}</p>
@@ -37,7 +39,7 @@
                         <div class="description">
                             <div class="ui form">
                                 <div class="field">
-                                    <textarea name="answer" placeholder="Type Here" rows="2"></textarea>
+                                    <textarea name="answer" placeholder="Type Here" rows="2" style="resize:none"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -111,6 +113,7 @@
             <p>No one has answered yet</p>
         {%endif%}
     </div>
+</div>
 </div>
 
 {% endblock content %}
