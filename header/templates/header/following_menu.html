@@ -35,7 +35,7 @@
 </div>
 
 <!-- Sidebar Menu -->
-<div class="ui vertical sidebar menu">
+<div id="sidebar_menu" class="ui vertical sidebar menu">
   <a href="{% url 'home:index' %}" {% if request.path == '/home/' %} class="active item"{%else%} class="item" {% endif %} style="text-align:center">
     <button class="ui button"><i class="big handshake link icon"></i> XPlain</button>
   </a>
