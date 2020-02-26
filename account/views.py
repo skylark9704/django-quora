@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from google.oauth2 import id_token
 from google.auth.transport import requests
 from django.contrib.auth.models import User
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from account.models import Auth
 import google_auth_oauthlib.flow
 
@@ -86,6 +86,18 @@ def oauth(request):
         print('Failed Verification')
         # Invalid token
         return HttpResponse('Verification Failed')
+
+
+def classic_login(request):
+    user = authenticate(
+        username=request.POST['username'],
+        password=request.POST['password']
+    )
+    if not user:
+        return HttpResponse('Verification Failed')
+    else:
+        login(request, user)
+        return redirect('/home/')
 
 
 def signout(request):

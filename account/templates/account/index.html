@@ -5,9 +5,10 @@
     <div style="position:relative">
       <h2 style="text-align:center">Login</h2>
       <div class="ui divider"></div>
-      <form id='classic' class="ui form" autocomplete="off" >
+      <form id='classic' method="post" action="{% url 'account:login' %}" class="ui form" autocomplete="off" >
+       {% csrf_token %}
         <div class="field">
-          <input type="text" name="email" placeholder="E-mail address"
+          <input type="text" name="username" placeholder="Username"
             style="border: 1px grey solid; background-color: transparent; color: grey">
         </div>
 
@@ -15,7 +16,10 @@
           <input type="password" name="password" placeholder="Password"
             style="border: 1px grey solid; background-color: transparent; color: grey">
         </div>
+        <button class="ui inverted button basic black" type="submit">Submit</button>
+        <br/>
         <div class="ui error message"></div>
+        <br/>
         <a id="sso_button" style="cursor:pointer" onclick="showSSO()">Google Sign In</a>
       </form>
       <div id="sso" class="actions" style="text-align:center">
