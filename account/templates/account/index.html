@@ -5,7 +5,7 @@
     <div style="position:relative">
       <h2 style="text-align:center">Login</h2>
       <div class="ui divider"></div>
-      <form id='classic' method="post" action="{% url 'account:login' %}" class="ui form" autocomplete="off" >
+      <form id='classic' method="post" action="{% url 'account:account' 'login' %}" class="ui form" autocomplete="off" >
        {% csrf_token %}
         <div class="field">
           <input type="text" name="username" placeholder="Username"
@@ -23,7 +23,7 @@
         <a id="sso_button" style="cursor:pointer" onclick="showSSO()">Google Sign In</a>
       </form>
       <div id="sso" class="actions" style="text-align:center">
-        <a href="{% url 'account:google' %}"><img src="https://www.svgrepo.com/show/223041/google.svg" id="signinButton"
+        <a href="{% url 'account:account' 'google' %}"><img src="https://www.svgrepo.com/show/223041/google.svg" id="signinButton"
             style="background-color: white; padding:8px; border-radius: 5px" width="48px" /></a>
           <br/><br/>
         <a id="classic_button" style="cursor:pointer" onclick="showClassic()">Use email instead</a>

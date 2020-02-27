@@ -4,18 +4,56 @@ from google.oauth2 import id_token
 from google.auth.transport import requests
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
+from django.views import View
 from account.models import Auth
 import google_auth_oauthlib.flow
 
 
 # Create your views here.
-def index(request):
+class Authentication(View):
+
+    def get(self, request, slug):
+        if slug == 'logout':
+            return signout(request)
+
+        elif slug == 'google':
+            return google_signin(request)
+
+        elif slug == 'callback':
+            return oauth(request)
+
+        else:
+            return HttpResponse('404')
+
+    def post(self, request, slug):
+        if slug == 'login':
+            return classic_login(request)
+
+        return HttpResponse('403')
+
+
+class Account(View):
+    def get(self, request, slug):
+        print('slug', slug)
+        if slug == 'me':
+            return profile(request)
+
+        elif slug == 'settings':
+            return profile(request)
+
+    def post(self, request):
+        pass
+
+
+def google_signin(request):
 
     CLIENT_SECRET = './secret.json'
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
-        CLIENT_SECRET, ['https://www.googleapis.com/auth/userinfo.email',
-                        'https://www.googleapis.com/auth/userinfo.profile',
-                        'openid']
+        CLIENT_SECRET, [
+            'https://www.googleapis.com/auth/userinfo.email',
+            'https://www.googleapis.com/auth/userinfo.profile',
+            'openid'
+        ]
     )
 
     flow.redirect_uri = 'http://localhost:8000/account/oauth/callback'
@@ -29,12 +67,16 @@ def index(request):
 
 
 def oauth(request):
-    print(request.path)
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
         './secret.json',
-        scopes=['https://www.googleapis.com/auth/userinfo.email',
-                'https://www.googleapis.com/auth/userinfo.profile', 'openid'],
-        state=request.GET.get('state'))
+        scopes=[
+            'https://www.googleapis.com/auth/userinfo.email',
+            'https://www.googleapis.com/auth/userinfo.profile',
+            'openid'
+        ],
+        state=request.GET.get('state')
+    )
+
     flow.redirect_uri = "http://localhost:8000/account/oauth/callback"
 
     authorization_response = request.get_full_path()
@@ -105,8 +147,11 @@ def signout(request):
     return redirect('/home/')
 
 
-def profile(request):
+def settings(request):
+    return render(request, 'account/settings.html')
 
+
+def profile(request):
     return render(request, 'account/profile.html')
 
 
