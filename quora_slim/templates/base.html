@@ -47,6 +47,40 @@
             body{
                 padding:4px 8px
             }
+
+            .python {
+                background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1024px-Python-logo-notext.svg.png') !important;
+                background-repeat: no-repeat !important;
+                background-size: 12rem !important;
+                background-position: 112% !important;
+                background-color: rgba(255,255,255,0.6) !important;
+                background-blend-mode: lighten !important;
+            }
+
+            .javascript {
+                background-image: url('https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png') !important;
+                background-repeat: no-repeat !important;
+                background-size: 12rem !important;
+                background-position: 112% !important;
+                background-color: rgba(255,255,255,0.6) !important;
+                background-blend-mode: lighten !important;
+            }
+            .go {
+                background-image: url('https://blog.golang.org/go-brand/Go-Logo/PNG/Go-Logo_LightBlue.png') !important;
+                background-repeat: no-repeat !important;
+                background-size: 12rem !important;
+                background-position: 98% !important;
+                background-color: rgba(255,255,255,0.6) !important;
+                background-blend-mode: lighten !important;
+            }
+            .ruby {
+                background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Ruby_On_Rails_Logo.svg/1200px-Ruby_On_Rails_Logo.svg.png') !important;
+                background-repeat: no-repeat !important;
+                background-size: 12rem !important;
+                background-position: 98% !important;
+                background-color: rgba(255,255,255,0.6) !important;
+                background-blend-mode: lighten !important;
+            }
         </style>
         <style href="/header/styles/style.css" rel="stylesheet"></style>
     </head>
@@ -56,6 +90,7 @@
         <div class="ui pushable segment" style="height:93vh">
             <div class="pusher">
                 {% include 'account/index.html' %}
+                {% include 'header/search_modal.html' %}
                 {% include 'header/index.html' %}
                     <div id="content" class="ui segment" style="padding:0; border:none">
                         {% block content %}

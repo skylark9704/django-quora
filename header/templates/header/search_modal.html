@@ -1,0 +1,62 @@
+<div id="search" class="ui basic modal">
+    <div class="content">
+        <div id="searchContainer" class="ui icon input" style="width:100%; background-color:transparent; color: grey;">
+            <input id="search_input" type="text" placeholder="Search..."
+                style="background-color:rgba(0,0,0,0.5); color: grey; font-size:1.5rem;border-radius:10px; border: solid grey 1px"
+                onkeyup="search()">
+            <i class="search icon"></i>
+        </div>
+        <div class="ui divider"></div>
+        <div id="resultsContainer">
+        </div>
+    </div>
+</div>
+
+<script>
+    let timeout
+    function search() {
+        let search = $('#search_input').val()
+        console.log(search)
+        !search && $('#resultsContainer').empty()
+        if (search.length >= 3) {
+            clearTimeout(timeout)
+            timeout = setTimeout(() => {
+                $('#searchContainer').addClass('loading')
+                $.ajax({
+                        url: `http://localhost:8000/questions/search?query=${search}`
+                    }).then(response => {
+                        console.log(response)
+                        if (response.length === 0) {
+                            $('#search_input').transition('shake', {
+                                duration: '0.2s'
+                            });
+                            $('#searchContainer').removeClass('loading')
+                            $('#resultsContainer').empty().append(
+                                '<div style="text-align:center">No Results Found</div>')
+                            return
+                        }
+                        $('#searchContainer').removeClass('loading')
+                        let listItems = ''
+                        for (let question of response) {
+                            console.log(question)
+                            listItems +=
+                                `<li><a href="/questions/question/${question.pk}">${question.fields.title}</a></li>`
+                        }
+                        $('#resultsContainer').empty().append(
+                            `<ul>${listItems}</ul>`
+                        )
+                    })
+                    .catch(error => {
+                        $('#searchContainer').removeClass('loading')
+                        console.log(error)
+                    })
+            },2000)
+
+        }
+
+    }
+
+    function showSearch() {
+        $('#search').modal('show');
+    }
+</script>
