@@ -20,5 +20,4 @@ urlpatterns = [
     url(r'^answer/(?P<question_id>[0-9]+)$',
         AnswerView.as_view(), name="answer"),
     url(r"^search/$", SearchView.as_view(), name="search"),
-    
 ]

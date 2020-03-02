@@ -1,8 +1,7 @@
 <div class="ui sidebar vertical menu">
   <a href="{% url 'home:index' %}" {% if request.path == '/home/' %} class="active item" {%else%} class="item"
-    {% endif %}>
-    <img src="https://www.svgrepo.com/show/146506/interview.svg" width="2rem" style="margin: 0 8px"><span
-      style="font-size:2rem">XPlain</span>
+    {% endif %} style="text-align:center; font-size:1.4rem">
+   xplain
   </a>
   {% if user.is_authenticated %}
   <a href="{% url 'questions:mine' %}" {% if request.path == '/questions/mine/' %} class="active item" {%else%}
