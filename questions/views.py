@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from .models import Question, Vote, Answer, Topic
 from django.views import View
+
+from django.core import serializers
 
 
 class QuestionsView(View):
@@ -116,6 +119,17 @@ class MyQuestionsView(View):
             request,
             'questions/my_questions.html',
             {'asked': questions, 'answered': answers}
+        )
+
+
+class SearchView(View):
+    def get(self, request):
+        questions = Question.objects.filter(
+            title__icontains=request.GET.get('query')
+        )
+        return HttpResponse(
+            serializers.serialize('json', questions),
+            content_type="application/json"
         )
 
 

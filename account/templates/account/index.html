@@ -1,13 +1,14 @@
-<div class="ui basic modal">
+<div id="login_modal" class="ui basic modal">
   <div class="ui grid stackable centered">
     <div class="six wide column" style="text-align: center">
     <div style="background: rgba(0,0,0,0.2); position:absolute; top:0;bottom:0;right:0;left:0; z-index:0; backdrop-filter: blur(5px); border-radius: 5px"></div>
     <div style="position:relative">
       <h2 style="text-align:center">Login</h2>
       <div class="ui divider"></div>
-      <form id='classic' class="ui form" autocomplete="off" >
+      <form id='classic' method="post" action="{% url 'account:account' 'login' %}" class="ui form" autocomplete="off" >
+       {% csrf_token %}
         <div class="field">
-          <input type="text" name="email" placeholder="E-mail address"
+          <input type="text" name="username" placeholder="Username"
             style="border: 1px grey solid; background-color: transparent; color: grey">
         </div>
 
@@ -15,11 +16,14 @@
           <input type="password" name="password" placeholder="Password"
             style="border: 1px grey solid; background-color: transparent; color: grey">
         </div>
+        <button class="ui inverted button basic black" type="submit">Submit</button>
+        <br/>
         <div class="ui error message"></div>
+        <br/>
         <a id="sso_button" style="cursor:pointer" onclick="showSSO()">Google Sign In</a>
       </form>
       <div id="sso" class="actions" style="text-align:center">
-        <a href="{% url 'account:google' %}"><img src="https://www.svgrepo.com/show/223041/google.svg" id="signinButton"
+        <a href="{% url 'account:account' 'google' %}"><img src="https://www.svgrepo.com/show/223041/google.svg" id="signinButton"
             style="background-color: white; padding:8px; border-radius: 5px" width="48px" /></a>
           <br/><br/>
         <a id="classic_button" style="cursor:pointer" onclick="showClassic()">Use email instead</a>

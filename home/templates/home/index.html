@@ -52,7 +52,7 @@ XPlain - Home
         <br/>
             {% for question in latest_question_list %}
                 
-                <div class="ui card raised segment link" style="width:100%">
+                <div class="ui card raised segment link {{question.topic.topic}}" style="width:100%">
                     <div class="content">
                         {% if question.topic.topic == 'javascript'  %}
                             <a href="{% url 'home:index' %}/?filter={{question.topic.topic}}" class="ui yellow mini right ribbon label">{{question.topic.topic}}</a>

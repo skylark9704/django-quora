@@ -1,67 +1,64 @@
-<!-- Following Menu -->
-<div class="ui large top fixed hidden menu">
-  <div class="ui container">
-    <a href="{% url 'home:index' %}" {% if request.path == '/home/' %} class="active item"{%else%} class="item" {% endif %}>
-      <i class="big handshake link icon"></i> XPlain
-    </a>
-    {% if user.is_authenticated %}
-    <a href="{% url 'questions:mine' %}" {% if request.path == '/questions/mine/' %} class="active item"{%else%} class="item" {% endif %}>
-      My Questions
-    </a>
-    {% endif %}
-    {% if user.is_superuser %}
-    <a href="{% url 'questions:topic' %}" {% if request.path == '/questions/topic/' %} class="active item"{%else%} class="item" {% endif %} >
-      Topics
-    </a>
-    {%endif%}
-    <a href="{% url 'about:index' %}"{% if request.path == '/about/' %} class="active item"{%else%} class="item" {% endif %}>
-      About
-    </a>
-    <div class="right item">
-      {% if user.is_authenticated %}
-        <div class="item">
-          <a class="ui button">{{user.username}}</a>
+<div class="ui grid">
+  <div class="computer only row">
+    <div class="column">
+      <div class="ui menu secondary pointing container">
+        <a href="{% url 'home:index' %}" {% if request.path == '/home/' %} class="active item" {%else%} class="item"
+          {% endif %} style="text-align:center; font-size:1.4rem">
+          xplain
+        </a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'questions:mine' %}" {% if request.path == '/questions/mine/' %} class="active item" {%else%}
+          class="item" {% endif %}>
+          My Questions
+        </a>
+        {% endif %}
+        {% if user.is_superuser %}
+        <a href="{% url 'questions:topic' %}" {% if request.path == '/questions/topic/' %} class="active item" {%else%}
+          class="item" {% endif %}>
+          Topics
+        </a>
+        {%endif%}
+        <a href="{% url 'about:index' %}" {% if request.path == '/about/' %} class="active item" {%else%} class="item"
+          {% endif %}>
+          About
+        </a>
+        <div class="right menu">
+          <button class="ui button item" onclick="showSearch()"><i class="icon search"></i></button>
+        {% if user.is_authenticated %}
+          <a href="{% url 'account:profile' 'me' %}" {% if request.path == '/account/profile' %} class="active item" {%else%} class="item"
+          {% endif %}>{{user.username}}</a>
+          <a class="ui item" href="{% url 'account:account' 'logout' %}">
+            Logout
+          </a>
+        {% else %}
+          <button class="ui button item" onclick="login()">
+            Login
+          </button>
+        {% endif %}
         </div>
-        <div class="item">
-          <a class="ui basic red button" href="{% url 'account:logout' %}">Logout</a>
-        </div>
-      {% else %}
-        <div class="item" >
-          <a class="ui basic grey button" onclick="login()">Login</a>
-        </div>
-      {% endif %}
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Sidebar Menu -->
-<div id="sidebar_menu" class="ui vertical sidebar menu">
-  <a href="{% url 'home:index' %}" {% if request.path == '/home/' %} class="active item"{%else%} class="item" {% endif %} style="text-align:center">
-    <button class="ui button"><i class="big handshake link icon"></i> XPlain</button>
-  </a>
-  {% if user.is_authenticated %}
-  <a href="{% url 'questions:mine' %}" {% if request.path == '/questions/mine/' %} class="active item"{%else%} class="item" {% endif %}>
-    My Questions
-  </a>
-  {% endif %}
-  {% if user.is_superuser %}
-  <a href="{% url 'questions:topic' %}" {% if request.path == '/questions/topic/' %} class="active item"{%else%} class="item" {% endif %} >
-    Topics
-  </a>
-  {%endif%}
-  <a href="{% url 'about:index' %}"{% if request.path == '/about/' %} class="active item"{%else%} class="item" {% endif %}>
-    About
-  </a>
-  {% if user.is_authenticated %}
-    <div class="item">
-      {{user.username}}
+  <div class="tablet mobile only row">
+    <div class="column">
+      <div class="ui menu secondary pointing">
+        <a id="mobile_item" class="item"><i class="bars icon"></i></a>
+        <div class="right menu">
+          <button onclick="showSearch()" class="ui button item"><i class="icon search"></i></button>
+        {% if user.is_authenticated %}
+          <a href="{% url 'account:profile' 'me' %}" {% if request.path == '/account/profile' %} class="active item" {%else%} class="item"
+          {% endif %}>{{user.username}}</a>
+          <a class="ui item" href="{% url 'account:account' 'logout' %}">
+            Logout
+          </a>
+        {% else %}
+          <button class="ui button item" onclick="login()">
+            Login
+          </button>
+        {% endif %}
+        </div>
+      </div>
     </div>
-    <div class="item">
-      <a class="ui red button tiny" href="{% url 'account:logout' %}">Logout</a>
-    </div>
-  {% else %}
-    <div class="item" >
-      <a class="ui basic grey button tiny" onclick="login()">Login</a>
-    </div>
-  {% endif %}
+  </div>
 </div>
